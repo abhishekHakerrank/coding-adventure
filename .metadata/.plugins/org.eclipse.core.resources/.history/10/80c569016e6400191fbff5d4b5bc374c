@@ -1,0 +1,18 @@
+package com.marsh.weather.service;
+
+import java.time.LocalDate;
+import java.time.Period;
+
+public class Test {
+
+	public static void main(String[] args) {
+		String dt ="2019-04-21 21:00:00";
+		LocalDate d1= LocalDate.parse(dt);
+		LocalDate d2= LocalDate.now();
+		
+		if(d1.isAfter(d2)&&d1.isBefore(d2.plus(Period.ofDays(2)))) {
+			
+		}
+	}
+
+}

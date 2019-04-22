@@ -1,0 +1,3 @@
+server.port=9999
+URL="https://api.openweathermap.org/data/2.5/forecast?zip={zipCode},us&appid={apiKey}"
+apiKey="80ac5f9d14dab30b4a36db9fa41e2a10"

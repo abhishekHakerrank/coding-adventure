@@ -1,0 +1,66 @@
+package com.marsh.weather.controller;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Assert;
+
+import com.marsh.weather.model.WeatherEntry;
+import com.marsh.weather.model.WeatherForecast;
+import com.marsh.weather.service.WeatherService;
+
+	
+	@RunWith(SpringRunner.class)
+	@WebMvcTest(WeatherAppController.class)
+	public class WeatherAppControllerTest {
+
+		@MockBean
+		private WeatherService weatherService;
+
+		@Autowired
+		private MockMvc mvc;
+		@Autowired
+		private WeatherAppController weatherAppController;
+		
+		@Before
+	    public void setup(){
+			List<WeatherEntry> weatherEntryList = new ArrayList<>();
+	        WeatherForecast responseMock = mock(WeatherForecast.class);
+	        when(weatherService.weatherForecastData("20120")).thenReturn(responseMock);
+	        when(responseMock.getName()).thenReturn("Bedestha");
+	        when(responseMock.getEntries()).thenReturn(weatherEntryList);
+
+	       
+	    }
+		
+		 /**
+	     * Positive scenario
+	     */
+	    @Test
+	    public void getWeatherReportByZipCode() {
+	    	WeatherForecast response = weatherAppController.getWeatherData("20147");
+
+	        Assert.isTrue(response!= null, "response should not null");
+	       
+	    }
+
+	    /**
+	     * Negative scenario
+	     */
+	    @Test
+	    public void getWeatherReportByZipCode_Negative() {
+	    	WeatherForecast response = weatherAppController.getWeatherData("34343434343");
+	        Assert.isTrue(response== null, "response should  be null");
+	    }
+}

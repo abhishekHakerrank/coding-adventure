@@ -1,0 +1,23 @@
+package com.marsh.weather.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.marsh.weather.model.WeatherForecast;
+import com.marsh.weather.service.WeatherService;
+
+@RestController
+public class WeatherAppController {
+	
+	@Autowired
+	private WeatherService weatherService;
+	
+	@RequestMapping("/weatherForecast/{zipCode}")
+	public WeatherForecast getWeatherData(@PathVariable String zipCode) {
+		
+		return weatherService.weatherForecastData(zipCode);
+	}
+
+}

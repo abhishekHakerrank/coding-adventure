@@ -1,0 +1,6 @@
+package com.marsh.weather.model;
+
+public class WeatherForecast {
+
+	
+}

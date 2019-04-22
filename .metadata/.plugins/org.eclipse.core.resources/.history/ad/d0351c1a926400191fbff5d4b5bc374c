@@ -1,0 +1,35 @@
+package com.marsh.weather.service;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Test {
+
+	public static void main(String[] args) throws ParseException {
+		/*
+		 * String dt ="2019-04-22 21:00:00"; LocalDate d1= LocalDate.parse(dt);
+		 * LocalDate d2= LocalDate.now();	
+		 */
+		String dt1 ="2019-04-22";
+	    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(dt1);
+	    System.out.println(date1);
+		/*
+		 * long dt = 1555750800; Date date = new Date(dt1); DateFormat sdf = new
+		 * SimpleDateFormat("dd/MM/yyyy"); System.out.println(sdf.format(new Date(dt)));
+		 */
+		//Instant dt=Instant.parse("2019-04-26T18:00:00Z");
+		//Instant dt="2019-04-26T18:00:00Z";
+		/*
+		 * LocalDateTime d1 = LocalDateTime.ofInstant(dt, ZoneOffset.UTC); LocalDateTime
+		 * d2 = LocalDateTime.now();
+		 */
+		/*
+		 * if(d1.isAfter(d2)&&d1.isBefore(d2.plus(Period.ofDays(2)))) {
+		 * 
+		 * System.out.println("CorrectDate"); }
+		 */
+	}
+
+}

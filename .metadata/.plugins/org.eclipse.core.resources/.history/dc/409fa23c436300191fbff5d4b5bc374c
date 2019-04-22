@@ -1,0 +1,19 @@
+package com.marsh.weather.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class WeatherService {
+
+	private static final Logger logger = LoggerFactory.getLogger(WeatherService.class);
+	private static final String WEATHER_FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast?zip={zip code}&appid= {apiKey}";
+	
+	public String weatherForecastData(String zipCode,String apiKey) {
+		
+		String url = "https://api.openweathermap.org/data/2.5/forecast?zip={zip code}&appid= {apiKey}";
+		return url;
+		
+	}
+}

@@ -1,0 +1,23 @@
+package com.marsh.weather.restcall;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import com.marsh.weather.model.WeatherForecast;
+
+@Service
+public class RestCallerService  {
+
+	
+	private static void callRestService() {
+		RestTemplate restTemplate = new RestTemplate();
+		WeatherForecast forecast = restTemplate.getForObject("http://localhost:9999/weatherForecast/20120", WeatherForecast.class);
+		System.out.println(forecast.getEntries());
+		
+	}
+	
+	
+	
+
+}

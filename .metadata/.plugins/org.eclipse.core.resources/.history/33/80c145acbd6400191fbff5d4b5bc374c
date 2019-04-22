@@ -1,0 +1,33 @@
+package com.marsh.weather;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.client.RestTemplate;
+
+import com.marsh.weather.model.WeatherForecast;
+
+@SpringBootApplication
+public class WeatherAppClientApplication implements CommandLineRunner {
+
+	
+	public static void main(String[] args) {
+		
+		for(String arg: args) {
+			System.out.println(arg);			
+		}
+		
+		SpringApplication.run(WeatherAppClientApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		
+		RestTemplate restTemplate = new RestTemplate();
+		WeatherForecast forecast = restTemplate.getForObject("http://localhost:9999/weatherForecast/20120", WeatherForecast.class);
+		System.out.println(forecast.getEntries());
+		
+	}
+
+
+}

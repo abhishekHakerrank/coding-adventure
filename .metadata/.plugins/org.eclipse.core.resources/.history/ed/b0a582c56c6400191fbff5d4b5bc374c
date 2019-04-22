@@ -1,0 +1,8 @@
+package com.marsh.weather.service;
+
+public class Test {
+
+	public static void main(args[]) {
+		
+	}
+}

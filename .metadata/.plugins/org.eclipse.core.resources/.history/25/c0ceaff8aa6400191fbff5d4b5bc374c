@@ -1,0 +1,52 @@
+package com.marsh.weather.model;
+
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+public class WeatherEntry implements Serializable {
+
+	private Instant timestamp;
+
+	private double tempMin;
+	private double tempMax;
+
+
+	@Override
+	public String toString() {
+		return "WeatherEntry [timestamp=" + this.timestamp + ", tempMin=" + tempMin + ", tempMax=" + tempMax + "]";
+	}
+
+	
+	  public Instant getTimestamp() {
+		  return this.timestamp;
+	}
+	  
+	  public void setTimestamp(Instant timeStamp) { 
+		  this.timestamp = timeStamp; 
+		  
+	  }
+	 
+
+	public double getTempMin() {
+		return tempMin;
+	}
+
+	public void setTempMin(double tempMin) {
+		this.tempMin = tempMin;
+	}
+
+	public double getTempMax() {
+		return tempMax;
+	}
+
+	public void setTempMax(double tempMax) {
+		this.tempMax = tempMax;
+	}
+
+	
+
+}

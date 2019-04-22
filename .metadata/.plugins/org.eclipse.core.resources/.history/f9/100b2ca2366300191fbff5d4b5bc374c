@@ -1,0 +1,5 @@
+package com.marsh.weather.service;
+
+public class WeatherService {
+
+}

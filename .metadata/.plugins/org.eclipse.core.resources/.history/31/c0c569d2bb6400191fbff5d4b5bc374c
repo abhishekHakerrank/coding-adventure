@@ -1,0 +1,97 @@
+package com.marsh.weather.service;
+
+import java.net.URI;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriTemplate;
+
+import com.marsh.weather.model.WeatherEntry;
+import com.marsh.weather.model.WeatherForecast;
+import com.marsh.weather.property.PropertiesReader;
+
+@Service
+public class WeatherService {
+
+	
+	private static final Logger logger = LoggerFactory.getLogger(WeatherService.class);
+	private final RestTemplate restTemplate;
+	@Autowired
+	PropertiesReader pReader;
+	
+	public WeatherService(RestTemplateBuilder restTemplateBuilder) {
+		this.restTemplate = restTemplateBuilder.build();
+	}
+	public WeatherForecast weatherForecastData(String zipCode) {
+		
+		logger.info("Requesting weather forecast for {}/{}", zipCode);
+		URI url = new UriTemplate(pReader.getURL().trim()).expand(zipCode, pReader.getApiKey().trim());
+		return weatherProcessor(invoke(url, WeatherForecast.class)); 
+		//return invoke(url, WeatherForecast.class);
+	}
+	
+	
+	private WeatherForecast weatherProcessor(WeatherForecast foreCast) {
+		List<WeatherEntry> weatherEntry= foreCast.getEntries();
+		List<WeatherEntry> newWeatherEntry = new ArrayList<WeatherEntry>();
+		for (WeatherEntry weatherEntry2 : weatherEntry) {
+			WeatherEntry wEntry = new WeatherEntry();
+			if(null != weatherEntry2.getTimestamp()) {
+				Instant dt = weatherEntry2.getTimestamp();
+				LocalDateTime dWeatherApp = LocalDateTime.ofInstant(dt, ZoneOffset.UTC);
+				LocalDateTime dCurrent = LocalDateTime.now();
+				LocalDate dWeatherAppDate = dWeatherApp.toLocalDate();
+				LocalDate dCurrentDate = dCurrent.toLocalDate();
+				System.out.println("Instant dt from JSON"+dt);
+				System.out.println("LocalDateTime from weather app"+dWeatherApp);
+				System.out.println("LocalDateTime current "+dCurrent);
+				System.out.println("LocalDate from weather app"+dWeatherAppDate);
+				System.out.println("LocalDate current"+dCurrentDate);
+				
+				if(dWeatherAppDate.isAfter(dCurrentDate) && dWeatherAppDate.isBefore(dCurrentDate.plus(Period.ofDays(2)))) {
+					double tempMax = weatherEntry2.getTempMax();
+					double fahrenheitTempMax = (tempMax * 1.8) - 459.67;
+					double tempMin = weatherEntry2.getTempMin();
+					double fahrenheitTempMin = (tempMin * 1.8) - 459.67;
+					wEntry.setTempMax(fahrenheitTempMax);
+					wEntry.setTempMin(fahrenheitTempMin);
+					wEntry.setTimestamp(weatherEntry2.getTimestamp());
+				}
+				else {
+					System.out.println("Date not in range");
+					logger.info("Requesting weather forecast for {}/{}", "Date not in range");
+					break;
+				}
+		}else {
+			logger.info("Requesting weather forecast for {}/{}", "Date not in range");
+		}
+			newWeatherEntry.add(wEntry);
+		}
+		foreCast.setEntries(newWeatherEntry);
+		return foreCast;
+	}
+	
+	private <T> T invoke(URI url, Class<T> responseType) {
+		RequestEntity<?> request = RequestEntity.get(url)
+				.accept(MediaType.APPLICATION_JSON).build();
+		ResponseEntity<T> exchange = this.restTemplate
+				.exchange(request, responseType);
+		return exchange.getBody();
+	}
+	
+	
+}

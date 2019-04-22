@@ -1,0 +1,15 @@
+package com.marsh.weather.service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
+
+public class Test {
+
+	public static void main(String[] args) {
+		String dt ="2019-04-21 21:00:00";
+		LocalDate d1= LocalDate.parse(dt);
+		LocalDate d2= LocalDate.now();
+	}
+
+}

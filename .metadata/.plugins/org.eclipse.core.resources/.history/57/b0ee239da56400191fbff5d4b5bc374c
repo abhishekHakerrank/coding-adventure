@@ -1,0 +1,5 @@
+package com.marsh.weather.restcall;
+
+public class RestCallerService {
+
+}
